@@ -10,59 +10,58 @@ class TextMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _isMe = message.sender.name != AppUtil.ME;
+    _isMe = message.sender.name == AppUtil.ME;
 
     // TODO: implement build
     return Expanded(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            _isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             margin: const EdgeInsets.only(left: 5),
             padding: const EdgeInsets.all(5),
             decoration: _isMe
                 ? BoxDecoration(
+                    borderRadius: BorderRadius.circular(5), color: Colors.teal)
+                : BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(
                       width: 1,
                       color: Colors.black26,
-                    ))
-                : BoxDecoration(
-                    borderRadius: BorderRadius.circular(5), color: Colors.teal),
+                    )),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _isMe
-                    ? Text(
-                        message.sender.firstName,
+                !_isMe?Text(
+                  message.sender.firstName,
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black54),
+                ):Container(width: 0,),
+                Wrap(
+                  alignment: WrapAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      message.content.text,
+                      maxLines: 5,
+                      style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: _isMe ? Colors.white : Colors.black),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        AppUtil.convertDateTime2HH(message.updatedAt),
                         style: TextStyle(
+                            color: _isMe ? Colors.white70 : Colors.black45,
                             fontSize: 13,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black54),
-                      )
-                    : Container(),
-                Container(
-                  child: Wrap(
-                    children: <Widget>[
-                      Text(
-                        message.content.text,
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: _isMe ? Colors.black : Colors.white),
+                            fontWeight: FontWeight.w500),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          AppUtil.convertDateTime2HH(message.updatedAt),
-                          style: TextStyle(
-                              color: _isMe ? Colors.black45 : Colors.white70,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 )
               ],
             ),
@@ -81,19 +80,19 @@ class ImageMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    _isMe = message.sender.name == AppUtil.ME;
     return Container(
       margin: const EdgeInsets.only(left: 5),
       padding: const EdgeInsets.all(10),
       decoration: _isMe
           ? BoxDecoration(
+              borderRadius: BorderRadius.circular(5), color: Colors.teal)
+          : BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               border: Border.all(
                 width: 1,
                 color: Colors.black26,
-              ))
-          : BoxDecoration(
-              borderRadius: BorderRadius.circular(5), color: Colors.teal),
+              )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
