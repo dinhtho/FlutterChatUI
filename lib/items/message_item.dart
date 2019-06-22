@@ -1,66 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/app_util.dart';
+import 'package:flutter_chat_app/model/messages.dart';
 
-class TextMessage extends StatefulWidget {
-  @override
-  _TextMessageState createState() => _TextMessageState();
-}
+class TextMessage extends StatelessWidget {
+  final Messages message;
+  bool _isMe = false;
 
-class _TextMessageState extends State<TextMessage> {
-  GlobalKey _key = GlobalKey();
-  double _height;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final RenderBox renderBoxRed = _key.currentContext.findRenderObject();
-      setState(() {
-        _height = renderBoxRed.size.height;
-      });
-    });
-  }
+  TextMessage(this.message);
 
   @override
   Widget build(BuildContext context) {
+    _isMe = message.sender.name != AppUtil.ME;
+
     // TODO: implement build
-    return Container(
-      margin: const EdgeInsets.only(left: 5),
-      padding: const EdgeInsets.all(5),
+    return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Ritesh',
-            style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w800,
-                color: Colors.black54),
-          ),
           Container(
-            key: _key,
-            height: _height,
-            child: Stack(
+            margin: const EdgeInsets.only(left: 5),
+            padding: const EdgeInsets.all(5),
+            decoration: _isMe
+                ? BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.black26,
+                    ))
+                : BoxDecoration(
+                    borderRadius: BorderRadius.circular(5), color: Colors.teal),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Awesome, Joshua, it’s 204 Chinatown. Do give me a call when you reach?',
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-                Align(
-                  alignment: AlignmentDirectional.bottomEnd,
-                  child: Text(
-                    '3:12 PM',
-                    style: TextStyle(
-                        color: Colors.black45,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
+                _isMe
+                    ? Text(
+                        message.sender.firstName,
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black54),
+                      )
+                    : Container(),
+                Container(
+                  child: Wrap(
+                    children: <Widget>[
+                      Text(
+                        message.content.text,
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: _isMe ? Colors.black : Colors.white),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          AppUtil.convertDateTime2HH(message.updatedAt),
+                          style: TextStyle(
+                              color: _isMe ? Colors.black45 : Colors.white70,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      )
+                    ],
                   ),
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -68,30 +74,80 @@ class _TextMessageState extends State<TextMessage> {
 }
 
 class ImageMessage extends StatelessWidget {
+  final Messages message;
+  bool _isMe = false;
+
+  ImageMessage(this.message);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
+      margin: const EdgeInsets.only(left: 5),
       padding: const EdgeInsets.all(10),
+      decoration: _isMe
+          ? BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                width: 1,
+                color: Colors.black26,
+              ))
+          : BoxDecoration(
+              borderRadius: BorderRadius.circular(5), color: Colors.teal),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Image.network(
-              'https://www.cscbukitbatok.sg/img/play/tennis1.jpg',
+              message.content.url,
               width: 200,
               height: 150,
               fit: BoxFit.cover,
             ),
           ),
           Text(
-            '3:12 PM',
+            AppUtil.convertDateTime2HH(message.updatedAt),
             style: TextStyle(
-                color: Colors.black45,
+                color: _isMe ? Colors.black45 : Colors.white70,
                 fontSize: 14,
                 fontWeight: FontWeight.w500),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class SystemMessage extends StatelessWidget {
+  final Messages message;
+
+  SystemMessage(this.message);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            AppUtil.convertDateTime(message.updatedAt),
+            style: TextStyle(
+                color: Colors.black26,
+                fontSize: 15,
+                fontWeight: FontWeight.w800),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 10),
+            child: Text(
+              message.content.text,
+              style: TextStyle(
+                  color: Colors.black26,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500),
+            ),
+          )
         ],
       ),
     );
