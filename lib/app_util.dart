@@ -6,11 +6,11 @@ class AppUtil {
 
   static String convertDateTime(String s) {
     final formatter = DateFormat('EEE,MMM dd');
-    return formatter.format(DateTime.parse(s)).toUpperCase();
+    return formatter.format(DateTime.parse(s).toLocal()).toUpperCase();
   }
 
   static String convertDateTime2HH(String s) {
     final formatter = DateFormat('hh:mm a');
-    return formatter.format(DateTime.parse(s)).toUpperCase();
+    return formatter.format(DateTime.parse(s).toLocal()).toUpperCase();
   }
 }
