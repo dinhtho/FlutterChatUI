@@ -46,17 +46,71 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: Container(
-        child: FutureBuilder(
-          future: getAssets(),
-          initialData: [],
-          builder: (context, snapshot) {
-            return ListView.builder(
-                reverse: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, i) {
-                  return _buildMessage(snapshot.data[i]);
-                });
-          },
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: FutureBuilder(
+                future: getAssets(),
+                initialData: [],
+                builder: (context, snapshot) {
+                  return ListView.builder(
+                      reverse: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, i) {
+                        return _buildMessage(snapshot.data[i]);
+                      });
+                },
+              ),
+            ),
+            Container(
+              height: 100,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 1,
+                    color: Colors.black26,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.all(10),
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Colors.black26,
+                                width: 1,
+                              )),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    left: 0, top: 10, right: 0, bottom: 0),
+                                border: InputBorder.none,
+                                prefixIcon: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.grey,
+                                ),
+                                hintText: 'Type message',
+                                hintStyle: TextStyle(
+                                    color: Colors.black26,
+                                    fontSize: 2,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                      ),
+                      Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          child: Icon(
+                            Icons.send,
+                            color: Colors.grey,
+                          ))
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -87,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 )
               : Container(),
-          messageWidget
+          Expanded(child: messageWidget)
         ],
       ),
     );
