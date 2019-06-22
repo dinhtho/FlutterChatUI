@@ -6,7 +6,7 @@
  2. Open the project
  3. Press Run button on ToolBar
  ## Use command line
- 2. `cd coding_challenge`
+ 2. `cd FlutterChatUI`
  3. `flutter run`
 
  # Screen Shot
