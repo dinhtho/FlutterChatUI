@@ -1,16 +1,17 @@
-# flutter_chat_app
+## Flutter Chat UI
 
-A new Flutter application.
+# How to Run
+ 1. Connect with a real device or open a simulator
+ ## Use Android Studio
+ 2. Open the project
+ 3. Press Run button on ToolBar
+ ## Use command line
+ 2. `cd coding_challenge`
+ 3. `flutter run`
 
-## Getting Started
+ # Screen Shot
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/dinhtho/FlutterChatUI/blob/master/screen_shot.png" width="500"/>
